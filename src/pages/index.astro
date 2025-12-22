@@ -2,8 +2,87 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Your Name - Portfolio">
-  <h1 class="text-4xl font-bold text-center mt-50">
-    Hello World
-  </h1>
+<BaseLayout title="Melika Mir Sajjadi - Portfolio">
+	<!-- Fixed Attractor Background -->
+	<div id="attractor-container" class="fixed inset-0 -z-10 bg-gray-900">
+    	<p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-400">
+      	Aizawa Attractor Background
+    	</p>
+  	</div>
+
+	<!-- Hero Section (more compact) -->
+  	<section class="min-h-[100vh] flex flex-col items-center justify-center">
+    	<div class="text-center">
+      		<h1 class="text-6xl font-bold mb-4 text-white">
+        	Melika Mir Sajjadi
+      		</h1>
+      
+    		<p class="text-xl text-gray-300">
+        	Tagline
+      		</p>
+    	</div>
+  	</section>
+
+	<!-- About Me Section - 9x9 Bento Grid -->
+	<section class="max-w-7xl mx-auto px-10 py-16">
+  		<div class="grid grid-cols-9 grid-rows-7 gap-5 h-[800px]">
+
+    		<!-- Picture Card -->
+			<div class="col-span-3 row-span-5 rounded-lg p-0.25">
+  				<img 
+    				src="/pic.jpg" 
+    				alt="Melika Mir Sajjadi Picture" 
+    				class="w-full h-full object-cover rounded-lg"
+  				/>
+			</div>
+
+			<!-- Location Card -->
+			<div class="col-span-3 row-span-1 row-start-6 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex items-center">
+  				<p class="font-semibold text-white">Location</p>
+			</div>
+
+			<!-- Socials Cards -->
+			<div class="col-span-1 row-span-1 row-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex items-center justify-center">
+  				<p class="font-semibold text-white">G</p>
+			</div>
+			<div class="col-span-1 row-span-1 row-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex items-center justify-center">
+  				<p class="font-semibold text-white">L</p>
+			</div>
+			<div class="col-span-1 row-span-1 row-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex items-center justify-center">
+  				<p class="font-semibold text-white">E</p>
+			</div>
+		
+		
+			<!-- About Me Card -->
+			<div class="col-span-3 row-span-3 row-start-1 col-start-4 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">About Me</p>
+			</div>
+		
+			<!-- Now Card -->
+			<div class="col-span-3 row-span-3 row-start-4 col-start-4 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">Now</p>
+			</div>
+
+			<!-- Projects Card -->
+			<div class="col-span-3 row-span-1 row-start-7 col-start-4 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">Projects</p>
+			</div>
+
+			<!-- Now Card -->
+			<div class="col-span-3 row-span-4 row-start-1 col-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">Areas of Interest</p>
+			</div>
+
+			<!-- Language Card -->
+			<div class="col-span-3 row-span-2 row-start-5 col-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">Languages</p>
+			</div>
+
+			<!-- Projects Card -->
+			<div class="col-span-3 row-span-1 row-start-7 col-start-7 bg-white/10 backdrop-blur-sm rounded-lg p-10 flex">
+  				<p class="font-semibold text-white">Blog</p>
+			</div>
+
+  		</div>
+	</section>
 </BaseLayout>
