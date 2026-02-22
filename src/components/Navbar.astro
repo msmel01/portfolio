@@ -1,45 +1,104 @@
 ---
-
+const currentPath = Astro.url.pathname;
 ---
 
-<nav class="">
-    <div class="max-w-6xl mx-auto px-4 py-4">
-        <div class="flex justify-between items-center md:justify-center">
-            <!-- Hamburger Button (mobile only) -->
-            <button 
-                id="mobile-menu-button"
-                class="md:hidden text-white focus:outline-none"
-                aria-label="Toggle menu"
-            >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-
-            <!-- Desktop Navigation (centered) -->
-            <!-- hidden by default, flex display on medium displays and larger  -->
-            <div class="hidden md:flex space-x-8">
-                <a href="/" class="text-white/80 hover:text-gray-400">Home</a>
-                <a href="/projects" class="text-white/80 hover:text-gray-400">Projects</a>
-                <a href="/blog" class="text-white/80 hover:text-gray-400">Blog</a>
-            </div>
-        </div>
-    </div>
-    <!-- Mobile Menu (hidden by default) -->
-    <div id="mobile-menu" class="hidden md:hidden absolute top-16 left-0 right-0 shadow-lg z-50">
-        <div class="px-4 py-4 space-y-2">
-            <a href="/" class="block text-white/80 hover:text-gray-400 py-2">Home</a>
-            <a href="/projects" class="block text-white/80 hover:text-gray-400 py-2">Projects</a>
-            <a href="/blog" class="block text-white/80 hover:text-gray-400 py-2">Blog</a>
-        </div>
-    </div>
+<nav class="navbar">
+    <ul id="tabs">
+        <li class={currentPath === "/" ? "current" : ""}>
+            <a href="/">About</a>
+        </li>
+        <li class={currentPath === "/projects" ? "current" : ""}>
+            <a href="/projects">Projects</a>
+        </li>
+        <li class={currentPath === "/blog" ? "current" : ""}>
+            <a href="/blog">Blog</a>
+        </li>
+    </ul>
 </nav>
+<style>
+    .navbar {
+        background: transparent;
+        position: relative;
+        margin-top: 0.5em;
+        padding: 0 1em 0 1em;
+    }
+    #tabs {
+        width: 100%;
+        margin: 0;
+        list-style: none;
+        border-bottom: 1px solid #ccc;
+    }
+    #tabs::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    #tabs li {
+        float: left;
+        margin: 0 0.5em 0 0;
+        position: relative; /* needed for ::before positioning */
+    }
 
-<script>
-  const button = document.getElementById('mobile-menu-button');
-  const menu = document.getElementById('mobile-menu');
+    /* This acts as the "border" — sits behind the `a`, colored with the border color */
+    #tabs li::before {
+        content: "";
+        position: absolute;
+        inset: 0 0 -1px 0; /* extends 1px below to back the margin-bottom: -1px on `a` */
+        background: #888;
+        clip-path: polygon(
+            10px 0,
+            calc(100% - 10px) 0,
+            100% 10px,
+            100% 100%,
+            0 100%,
+            0 10px
+        );
+    }
 
-  button?.addEventListener('click', () => {
-    menu?.classList.toggle('hidden');
-  });
-</script>
+    #tabs a {
+        position: relative;
+        z-index: 1;
+        display: block; /* li is floated so `a` can be block instead of floated */
+        background: #9a9a9a;
+        padding: 0.5em 1em;
+        /* 1px inset on top/sides creates the visible "border" against ::before */
+        margin: 1px 1px 0 1px;
+        margin-bottom: -1px; /* tucks under the border-bottom of #tabs */
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        /* 1px smaller bevel to sit inside the ::before border layer */
+        clip-path: polygon(
+            9px 0,
+            calc(100% - 9px) 0,
+            100% 9px,
+            100% 100%,
+            0 100%,
+            0 9px
+        );
+        transition:
+            background 0.2s,
+            color 0.2s;
+        width: calc(15em - 2px); /* account for 1px left+right margin */
+        text-align: center;
+    }
+
+    #tabs a:hover {
+        background: #b0b0b0;
+    }
+    #tabs a:focus {
+        outline: none;
+    }
+
+    #tabs li.current {
+        z-index: 3;
+    }
+    #tabs li.current::before {
+        background: #ccc; /* lighter border color for active tab */
+    }
+    #tabs li.current a {
+        background: #fff;
+        color: #000;
+        /* white bottom covers both the ::before and the #tabs border-bottom, opening the tab */
+    }
+</style>
