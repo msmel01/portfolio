@@ -1,0 +1,57 @@
+.employment-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Roboto Serif";
+    font-size: 1.2rem;
+}
+
+.employment-table th,
+.employment-table td {
+    padding: 0.5em 1em;
+    text-align: left;
+    border-right: 1px solid #ccc;
+}
+
+.employment-table th:last-child,
+.employment-table td:last-child {
+    border-right: none;
+}
+
+.employment-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.employer {
+    font-weight: 800;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-title {
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.employment-table td {
+    vertical-align: top;
+}
+
+.employment-table td:first-child {
+    width: 32%;
+    min-width: 180px;
+}
+
+.employment-table td:nth-child(2) {
+    width: 18%;
+    min-width: 120px;
+    vertical-align: middle;
+}
+
+.employment-table td:last-child {
+    width: 50%;
+    max-width: 320px;
+}

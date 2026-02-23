@@ -1,5 +1,7 @@
 ---
 const currentPath = Astro.url.pathname;
+
+import "../styles/navbar.css";
 ---
 
 <nav class="navbar">
@@ -15,90 +17,3 @@ const currentPath = Astro.url.pathname;
         </li>
     </ul>
 </nav>
-<style>
-    .navbar {
-        background: transparent;
-        position: relative;
-        margin-top: 0.5em;
-        padding: 0 1em 0 1em;
-    }
-    #tabs {
-        width: 100%;
-        margin: 0;
-        list-style: none;
-        border-bottom: 1px solid #ccc;
-    }
-    #tabs::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
-    #tabs li {
-        float: left;
-        margin: 0 0.5em 0 0;
-        position: relative; /* needed for ::before positioning */
-    }
-
-    /* This acts as the "border" — sits behind the `a`, colored with the border color */
-    #tabs li::before {
-        content: "";
-        position: absolute;
-        inset: 0 0 -1px 0; /* extends 1px below to back the margin-bottom: -1px on `a` */
-        background: #888;
-        clip-path: polygon(
-            10px 0,
-            calc(100% - 10px) 0,
-            100% 10px,
-            100% 100%,
-            0 100%,
-            0 10px
-        );
-    }
-
-    #tabs a {
-        position: relative;
-        z-index: 1;
-        display: block; /* li is floated so `a` can be block instead of floated */
-        background: #9a9a9a;
-        padding: 0.5em 1em;
-        /* 1px inset on top/sides creates the visible "border" against ::before */
-        margin: 1px 1px 0 1px;
-        margin-bottom: -1px; /* tucks under the border-bottom of #tabs */
-        text-decoration: none;
-        color: #333;
-        font-weight: 500;
-        /* 1px smaller bevel to sit inside the ::before border layer */
-        clip-path: polygon(
-            9px 0,
-            calc(100% - 9px) 0,
-            100% 9px,
-            100% 100%,
-            0 100%,
-            0 9px
-        );
-        transition:
-            background 0.2s,
-            color 0.2s;
-        width: calc(15em - 2px); /* account for 1px left+right margin */
-        text-align: center;
-    }
-
-    #tabs a:hover {
-        background: #b0b0b0;
-    }
-    #tabs a:focus {
-        outline: none;
-    }
-
-    #tabs li.current {
-        z-index: 3;
-    }
-    #tabs li.current::before {
-        background: #ccc; /* lighter border color for active tab */
-    }
-    #tabs li.current a {
-        background: #fff;
-        color: #000;
-        /* white bottom covers both the ::before and the #tabs border-bottom, opening the tab */
-    }
-</style>

@@ -1,5 +1,42 @@
 @import "tailwindcss";
 
+/* @import 'geist'; */
 body {
     overflow-x: hidden;
 }
+
+@font-face {
+    font-family: 'Geist';
+    src: url('/src/assets/fonts/Geist-Regular.woff2') format('woff2'),
+        url('/src/assets/fonts/Geist-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist ExtraBold';
+    src: url('/src/assets/fonts/Geist-ExtraBold.woff2') format('woff2'),
+        url('/src/assets/fonts/Geist-ExtraBold.woff') format('woff');
+    /* font-weight: 1000; */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist Mono';
+    src: url('/src/assets/fonts/GeistMono-Regular.woff2') format('woff2');
+    /* font-weight: 1000; */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto Serif';
+    src: url('/src/assets/fonts/RobotoSerif.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Repeat for other weights/styles as needed */

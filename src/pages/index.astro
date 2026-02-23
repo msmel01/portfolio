@@ -1,8 +1,96 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import EmploymentTable from "../components/EmploymentTable.astro";
+
+import "../styles/index.css";
+import content from "../content/index.json";
 ---
 
-<BaseLayout title="Case: Melika">
-	<h1>Welcome to My Portfolio</h1>
-	<p>This is the index page content.</p>
+<BaseLayout title="About - Melika Mir Sajjadi">
+	<section>
+		<h1 class="heading-main">Melika Mir Sajjadi</h1>
+		<p>
+			<span class="label">Occupation:</span>
+			<span class="value">{content.occupation}</span>
+		</p>
+		<p>
+			<span class="label">Education:</span>
+			<span class="value">{content.education}</span>
+		</p>
+		<p>
+			<span class="label">Location:</span>
+			<span class="value">{content.location}</span>
+		</p>
+		<p class="flex-row">
+			<span class="label">Open to work:</span>
+			<span class="flex-row-inner">
+				<span class="checkbox-label">Yes</span>
+				<span class="checkbox-square"
+					><span class="checkbox-x">&#10005;</span></span
+				>
+			</span>
+			<span class="flex-row-inner">
+				<span class="checkbox-label">No</span>
+				<span class="checkbox-square"><!-- Empty box --></span>
+			</span>
+		</p>
+		<p>
+			<span class="label">Languages:</span>
+			<span class="value">{content.languages}</span>
+		</p>
+	</section>
+
+	<section>
+		<h1 class="heading-section">Personal Statement</h1>
+		<p class="value">{content.personalStatement}</p>
+	</section>
+
+	<section>
+		<h1 class="heading-section">Skillset</h1>
+		<p>
+			<span class="label skill-label">LLMs:</span>
+			<span class="value">{content.llmSkills}</span>
+		</p>
+		<p>
+			<span class="label skill-label">Data Science:</span>
+			<span class="value">{content.dataSciSkills}</span>
+		</p>
+		<br />
+		<p class="value">
+			Refer to <a href="/projects">projects</a> for detailed tech stack.
+		</p>
+	</section>
+
+	<section>
+		<h1 class="heading-section">Employment History</h1>
+		<EmploymentTable employment={content.employment} />
+		<br />
+		<p class="value">
+			Refer to <a href="#">resume</a> for in-depth responsibilities.
+		</p>
+	</section>
+
+	<!-- <section>
+		<h1 class="heading-section">Interests</h1>
+	</section> -->
+
+	<section>
+		<h1 class="heading-section">Contact Information</h1>
+		<p>
+			<span class="label">Email:</span>
+			<span class="value">{content.email}</span>
+		</p>
+		<a
+			class="social-media-icons"
+			href={content.github}
+			target="_blank"
+			rel="noopener"><i class="ri-github-fill"></i></a
+		>
+		<a
+			class="social-media-icons"
+			href={content.linkedin}
+			target="_blank"
+			rel="noopener"><i class="ri-linkedin-box-fill"></i></a
+		>
+	</section>
 </BaseLayout>
