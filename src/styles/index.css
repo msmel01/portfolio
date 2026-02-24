@@ -63,3 +63,55 @@ section {
 .social-media-icons {
     font-size: 2rem;
 }
+
+.personal-sticky-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: -4em; /* was 2rem, compensates for the 4.5rem pull-up */
+}
+.personal-statement-col {
+  flex: 2 1 320px;
+  min-width: 220px;
+}
+.sticky-note-col {
+  flex: 1 1 220px;
+  min-width: 180px;
+  display: flex;
+  justify-content: center;
+}
+
+.sticky-note-overlap {
+  margin-top: -4.5rem; /* instead of top: -4.5rem */
+}
+
+.personal-sticky-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+  .personal-sticky-row {
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticky-note-overlap {
+    margin-top: 0;
+  }
+  .sticky-note-col, .personal-statement-col {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 630px) {
+  .personal-sticky-row {
+    margin-bottom: 70px;
+  }
+}

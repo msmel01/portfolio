@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import EmploymentTable from "../components/EmploymentTable.astro";
+import StickyNote from "../components/StickyNote.astro";
 
 import "../styles/index.css";
 import content from "../content/index.json";
@@ -40,13 +41,28 @@ import content from "../content/index.json";
 		</p>
 	</section>
 
-	<section>
-		<h1 class="heading-section">Personal Statement</h1>
-		<p class="value">{content.personalStatement}</p>
+	<section class="personal-sticky-row">
+		<div class="personal-statement-col">
+			<h1 class="heading-section">Personal Statement</h1>
+			<!-- <p class="value">{content.personalStatement}</p> -->
+			<p class="value">
+				{
+					content.personalStatement.split("\n").map((line) => (
+						<>
+							{line}
+							<br />
+						</>
+					))
+				}
+			</p>
+		</div>
+		<div class="sticky-note-col sticky-note-overlap">
+			<StickyNote />
+		</div>
 	</section>
 
 	<section>
-		<h1 class="heading-section">Skillset</h1>
+		<h1 class="heading-section">Skills</h1>
 		<p>
 			<span class="label skill-label">LLMs:</span>
 			<span class="value">{content.llmSkills}</span>
