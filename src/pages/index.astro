@@ -11,7 +11,7 @@ import content from "../content/index.json";
 	<section>
 		<h1 class="heading-main">Melika Mir Sajjadi</h1>
 		<p>
-			<span class="label">Occupation:</span>
+			<span class="label">Domain:</span>
 			<span class="value">{content.occupation}</span>
 		</p>
 		<p>
@@ -44,7 +44,6 @@ import content from "../content/index.json";
 	<section class="personal-sticky-row">
 		<div class="personal-statement-col">
 			<h1 class="heading-section">Personal Statement</h1>
-			<!-- <p class="value">{content.personalStatement}</p> -->
 			<p class="value">
 				{
 					content.personalStatement.split("\n").map((line) => (
@@ -64,16 +63,49 @@ import content from "../content/index.json";
 	<section>
 		<h1 class="heading-section">Skills</h1>
 		<p>
-			<span class="label skill-label">LLMs:</span>
-			<span class="value">{content.llmSkills}</span>
+			<span class="label skill-label">ML Research & Development</span>
+			<span class="value">
+				{
+					content.mlSkills.split("\n").map((line) => (
+						<>
+							{line}
+							<br />
+						</>
+					))
+				}
+			</span>
 		</p>
+		<br />
 		<p>
-			<span class="label skill-label">Data Science:</span>
-			<span class="value">{content.dataSciSkills}</span>
+			<span class="label skill-label">LLM Engineering</span>
+			<span class="value">
+				{
+					content.llmSkills.split("\n").map((line) => (
+						<>
+							{line}
+							<br />
+						</>
+					))
+				}
+			</span>
+		</p>
+		<br />
+		<p>
+			<span class="label skill-label">Robotics</span>
+			<span class="value">
+				{
+					content.roboticsSkills.split("\n").map((line) => (
+						<>
+							{line}
+							<br />
+						</>
+					))
+				}
+			</span>
 		</p>
 		<br />
 		<p class="value">
-			Refer to <a href="/projects">projects</a> for detailed tech stack.
+			See my <a href="/projects">projects</a>.
 		</p>
 	</section>
 

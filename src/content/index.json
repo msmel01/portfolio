@@ -1,39 +1,51 @@
 {
-    "personalStatement": "I design and deploy end-to-end ML pipelines, translating research insight into robust engineering systems.\n\nI’m drawn to (1) interdisciplinary, (2) edge-case-heavy, and (3) novel problems.\n(1) The more, the better. I’ve worked in various domains: healthcare, robotics, transportation, and public sector. I enjoy making new connections across disciplines.\n(2) I find it satisfying to build solutions that generalize well in the real world.\n(3) Novel problems demand innovation. I enjoy exploring unknowns.\n\nI value work environments that balance collaboration with ownership.",
+    "personalStatement": "I design and deploy end-to-end ML pipelines, translating research insight into robust engineering systems.\n\n I'm drawn to interdisciplinary, generalizable, and novel problems. I work best in environments that balance collaboration with ownership.\n\nRight now, I’m building agentic and multimodal AI.",
     "occupation": "Applied AI & ML engineering",
     "education": "Bachelor of Computer Science - University of Waterloo (UW)",
     "location": "Waterloo, ON",
     "languages": "English, French, Farsi",
-    "llmSkills": "Agentic Workflows (LangGraph), LLM applications, Prompt Engineering, RAG, Database-backed Applications",
-    "dataSciSkills": "End-to-end Model Development & Evaluation, Exploratory Data Analysis, Feature Engineering, Data Visualization, Computer Vision",
+    "mlSkills": "End-to-End Model Pipeline: Implementation, Training, Evaluation\nExploratory Data Analysis\nFeature Engineering\nComputer Vision\nTime Series",
+    "llmSkills": "Agents\nLLM Orchestration\nPrompt Engineering\nRAG",
+    "roboticsSkills": "Perception\nSignal Processing\nPID Controllers\nOdometry",
     "employment": [
         {
             "employer": "Motive",
-            "dates": ["09/23 - 12/23"],
+            "dates": [
+                "09/23 - 12/23"
+            ],
             "title": "Machine Learning Engineer",
             "summary": "Unsupervised driving scene representation learning with Variational Autoencoders (VAE)"
         },
         {
             "employer": "NuraLogix",
-            "dates": ["05/23 - 08/23", "09/22 - 12/22"],
+            "dates": [
+                "05/23 - 08/23",
+                "09/22 - 12/22"
+            ],
             "title": "Machine Learning Scientist",
             "summary": "Robust physiological signal processing pipelines"
         },
         {
             "employer": "Woodbridge Foam Corporation",
-            "dates": ["01/22 - 04/22"],
+            "dates": [
+                "01/22 - 04/22"
+            ],
             "title": "Data Scientist",
             "summary": "Predictive time-series modelling on 100+ GB of manufacturing data"
         },
         {
             "employer": "Faculty of Engineering @ UW",
-            "dates": ["06/21 - 08/21"],
+            "dates": [
+                "06/21 - 08/21"
+            ],
             "title": "Robotics Software Engineer",
             "summary": "Object detection and ROS2 vision pipeline for underwater robot missions"
         },
         {
             "employer": "Digital Assets Group @ UW",
-            "dates": ["05/20 - 08/20"],
+            "dates": [
+                "05/20 - 08/20"
+            ],
             "title": "Python Software Developer",
             "summary": "Linear algebra animation tooling for digital educators"
         }

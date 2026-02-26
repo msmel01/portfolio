@@ -6,15 +6,6 @@ body {
 }
 
 @font-face {
-    font-family: 'Geist';
-    src: url('/src/assets/fonts/Geist-Regular.woff2') format('woff2'),
-        url('/src/assets/fonts/Geist-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
     font-family: 'Geist ExtraBold';
     src: url('/src/assets/fonts/Geist-ExtraBold.woff2') format('woff2'),
         url('/src/assets/fonts/Geist-ExtraBold.woff') format('woff');

@@ -3,6 +3,7 @@
     position: relative;
     margin-top: 0.5em;
     padding: 0 1em 0 1em;
+    /* z-index: 100; */
 }
 
 #tabs {
@@ -53,7 +54,6 @@
     /* tucks under the border-bottom of #tabs */
     text-decoration: none;
     color: #333;
-    /* font-weight: 500; */
     font-family: 'Geist Mono';
     /* 1px smaller bevel to sit inside the ::before border layer */
     clip-path: polygon(9px 0,
@@ -91,4 +91,161 @@
     background: #fff;
     color: #000;
     /* white bottom covers both the ::before and the #tabs border-bottom, opening the tab */
+}
+
+/* Navbar paper clip for smaller screens */
+.clip-wrapper {
+    position: absolute;
+    right: 1.5em;
+    top: -2.5em;
+    width: 72px;
+    height: 110px;
+    z-index: 101;
+}
+
+#navbar-clip {
+    position: absolute;
+    width: 72px;
+    /* fit the wrapper */
+    height: auto;
+    z-index: 11;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+#navbar-clip.pushed {
+    transform: translate(5px, -14.4px);
+}
+
+.clip-cover-right-top {
+    position: absolute;
+    background: #ccc;
+    /* background: red; */
+    z-index: 13;
+    top: 39.6px;
+    left: 56.5px;
+    width: 8px;
+    height: 1.5px;
+    clip-path: polygon(7% 0%, 100% 0%, 100% 100%, 0% 100%);
+    /* clip-path: polygon(1.15px 0%, 100% 0.15px, 100% 100%, 0.5px 100%); */
+}
+
+.clip-cover-right-bottom {
+    position: absolute;
+    background: white;
+    /* background: green; */
+    z-index: 11;
+    /* top: 36.7%;
+    left: 69.9%; */
+    top: 40.3px;
+    left: 50px;
+    width: 15px;
+    height: 17px;
+    /* clip-path: polygon(53% 0%, 90% 0%, 75% 90%, 10% 90%); */
+    clip-path: polygon(52% 0%, 95% 0%, 75% 90%, 10% 90%);
+}
+
+.clip-cover-left-top {
+    position: absolute;
+    background: #ccc;
+    /* background: green; */
+    z-index: 12;
+    top: 40px;
+    left: 15px;
+    width: 10px;
+    height: 1.5px;
+    clip-path: polygon(0% 0%, 90% 0%, 85% 50%, 0% 50%);
+}
+
+.clip-cover-left-bottom {
+    position: absolute;
+    background: #ffffff;
+    /* background: red; */
+    z-index: 11;
+    top: 40px;
+    left: 12px;
+    width: 12px;
+    height: 25px;
+    clip-path: polygon(40% 0%, 99% 0%, 15.5% 85%, 0% 50%);
+}
+
+
+
+body.menu-open {
+    overflow: hidden;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;
+    padding-bottom: 100px;
+    gap: 2em;
+    position: fixed;
+    box-sizing: border-box;
+    /* background: red; */
+    background: #fff;
+    z-index: 50;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    overflow-y: auto;
+    width: calc(100% - 2em);
+    top: var(--nav-bottom, 80px);
+    height: calc(100dvh - var(--nav-bottom, 80px) - 0.5em);
+}
+
+.mobile-menu a {
+    display: block;
+    background: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    font-family: 'Geist Mono';
+    font-size: 1.3rem;
+    text-align: left;
+    text-decoration: none;
+    clip-path: none !important;
+    width: auto !important;
+    transition: color 0.2s;
+}
+
+.mobile-menu.open {
+    display: flex;
+}
+
+/* below 900px — hide tabs, show clip as hamburger */
+@media (max-width: 900px) {
+    .navbar {
+        margin-top: 3.5em;
+    }
+
+    #tabs li {
+        display: none;
+        /* hide all tab links */
+    }
+
+    .clip-wrapper {
+        display: block;
+        /* always show the clip */
+    }
+}
+
+/* above 900px — hide mobile menu, show tabs normally */
+@media (min-width: 901px) {
+    .mobile-menu {
+        display: none !important;
+    }
+
+    #navbar-clip {
+        /* disable click behavior visually above 900px */
+        pointer-events: none;
+    }
+
+    .clip-wrapper {
+        display: none !important;
+    }
 }

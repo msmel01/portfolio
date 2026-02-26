@@ -4,6 +4,11 @@ const currentPath = Astro.url.pathname;
 import "../styles/navbar.css";
 ---
 
+<!-- 
+TODO:
+Animation of the paperclip menu when pressing a link
+-->
+
 <nav class="navbar">
     <ul id="tabs">
         <li class={currentPath === "/" ? "current" : ""}>
@@ -15,8 +20,60 @@ import "../styles/navbar.css";
         <li class={currentPath === "/projects" ? "current" : ""}>
             <a href="/projects">Projects</a>
         </li>
-        <!-- <li class={currentPath === "/blog" ? "current" : ""}>
-            <a href="/blog">Blog</a>
-        </li> -->
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="/" class={currentPath === "/" ? "current" : ""}>About</a>
+            <a href="/now" class={currentPath === "/now" ? "current" : ""}>Now</a>
+            <a href="/projects" class={currentPath === "/projects" ? "current" : ""}>Projects</a>
+        </div>
+
+        <div class="clip-wrapper">
+            <img
+                src="/graphics/paperclip.png"
+                alt="paperclip"
+                id="navbar-clip"
+            />
+            <div class="clip-cover-right-top"></div>
+            <div class="clip-cover-right-bottom"></div>
+            <div class="clip-cover-left-top"></div>
+            <div class="clip-cover-left-bottom"></div>
+            <!-- sits on top, hides parts of the image -->
+        </div>
     </ul>
 </nav>
+
+<script>
+    const clip = document.getElementById("navbar-clip");
+    const menu = document.getElementById("mobile-menu");
+    const navbar = document.querySelector(".navbar"); // this line
+
+    const container = document.querySelector(".container");
+
+    function setMenuPosition() {
+        const navBottom = navbar.getBoundingClientRect().bottom;
+        document.documentElement.style.setProperty(
+            "--nav-bottom",
+            `${navBottom}px`,
+        );
+    }
+
+    clip.addEventListener("click", () => {
+        setMenuPosition();
+        clip.classList.toggle("pushed");
+        menu.classList.toggle("open");
+        document.body.classList.toggle("menu-open");
+        container.classList.toggle("hidden");
+    });
+
+    window.addEventListener("resize", setMenuPosition);
+    setMenuPosition(); // run on load too
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) {
+            document.body.classList.remove("menu-open");
+            menu.classList.remove("open");
+            clip.classList.remove("pushed");
+            container.classList.remove("hidden");
+        }
+    });
+</script>
