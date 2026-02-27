@@ -4,11 +4,6 @@ const currentPath = Astro.url.pathname;
 import "../styles/navbar.css";
 ---
 
-<!-- 
-TODO:
-Animation of the paperclip menu when pressing a link
--->
-
 <nav class="navbar">
     <ul id="tabs">
         <li class={currentPath === "/" ? "current" : ""}>
@@ -23,8 +18,13 @@ Animation of the paperclip menu when pressing a link
 
         <div class="mobile-menu" id="mobile-menu">
             <a href="/" class={currentPath === "/" ? "current" : ""}>About</a>
-            <a href="/now" class={currentPath === "/now" ? "current" : ""}>Now</a>
-            <a href="/projects" class={currentPath === "/projects" ? "current" : ""}>Projects</a>
+            <a href="/now" class={currentPath === "/now" ? "current" : ""}
+                >Now</a
+            >
+            <a
+                href="/projects"
+                class={currentPath === "/projects" ? "current" : ""}>Projects</a
+            >
         </div>
 
         <div class="clip-wrapper">
@@ -43,37 +43,85 @@ Animation of the paperclip menu when pressing a link
 </nav>
 
 <script>
-    const clip = document.getElementById("navbar-clip");
-    const menu = document.getElementById("mobile-menu");
-    const navbar = document.querySelector(".navbar"); // this line
+    import { navigate } from "astro:transitions/client";
 
-    const container = document.querySelector(".container");
+    function closeMenu() {
+        const clip = document.getElementById("navbar-clip");
+        const menu = document.getElementById("mobile-menu");
+        const container = document.querySelector(".container");
 
-    function setMenuPosition() {
-        const navBottom = navbar.getBoundingClientRect().bottom;
-        document.documentElement.style.setProperty(
-            "--nav-bottom",
-            `${navBottom}px`,
-        );
+        clip?.classList.remove("pushed");
+        menu?.classList.remove("open");
+        document.body.classList.remove("menu-open");
+        container?.classList.remove("hidden");
     }
 
-    clip.addEventListener("click", () => {
-        setMenuPosition();
-        clip.classList.toggle("pushed");
-        menu.classList.toggle("open");
-        document.body.classList.toggle("menu-open");
-        container.classList.toggle("hidden");
-    });
+    document.addEventListener("astro:page-load", () => {
+        const clip = document.getElementById("navbar-clip")!;
+        const menu = document.getElementById("mobile-menu")!;
+        const navbar = document.querySelector(".navbar")!;
+        const container = document.querySelector(".container")!;
 
-    window.addEventListener("resize", setMenuPosition);
-    setMenuPosition(); // run on load too
+        // if (!clip || !menu || !navbar) return;
 
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > 900) {
-            document.body.classList.remove("menu-open");
-            menu.classList.remove("open");
-            clip.classList.remove("pushed");
-            container.classList.remove("hidden");
+        function setMenuPosition() {
+            const navBottom = navbar.getBoundingClientRect().bottom;
+            document.documentElement.style.setProperty(
+                "--nav-bottom",
+                `${navBottom}px`,
+            );
         }
+
+        setMenuPosition();
+        window.addEventListener("resize", setMenuPosition);
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 900) closeMenu();
+        });
+
+        // Clip toggle — guard against duplicate listeners on the persisted element
+        if (!clip.dataset.listenerAttached) {
+            clip.dataset.listenerAttached = "true";
+            clip.addEventListener("click", () => {
+                // const menu = document.getElementById("mobile-menu");
+                // const container = document.querySelector(".container");
+                // const navbar = document.querySelector(".navbar");
+                const navBottom = navbar.getBoundingClientRect().bottom;
+                document.documentElement.style.setProperty(
+                    "--nav-bottom",
+                    `${navBottom}px`,
+                );
+                clip.classList.toggle("pushed");
+                menu?.classList.toggle("open");
+                document.body.classList.toggle("menu-open");
+                container?.classList.toggle("hidden");
+            });
+        }
+
+        menu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const href = link.getAttribute("href");
+                if (!href) return;
+
+                // Freeze position as inline style, remove class (no visual change)
+                clip.style.transform = "translate(5px, -14.4px)";
+                clip.classList.remove("pushed");
+
+                menu?.classList.remove("open");
+                document.body.classList.remove("menu-open");
+                container?.classList.remove("hidden");
+
+                navigate(href);
+            });
+        });
+
+        document.addEventListener("astro:after-swap", () => {
+            const clip = document.getElementById("navbar-clip");
+            if (!clip) return;
+
+            clip.style.transform = "translate(5px, -14.4px)";
+            clip.getBoundingClientRect(); // force the browser to commit the pushed state
+            clip.style.transform = ""; // now transition plays smoothly from there
+        });
     });
 </script>

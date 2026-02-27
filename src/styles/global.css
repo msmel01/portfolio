@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
-/* @import 'geist'; */
 body {
     overflow-x: hidden;
+}
+
+html {
+    scrollbar-gutter: stable;
 }
 
 @font-face {

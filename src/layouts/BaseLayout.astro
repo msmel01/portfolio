@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-
+import { ClientRouter, fade } from 'astro:transitions';
 const { title } = Astro.props;
 ---
 
@@ -15,11 +15,12 @@ const { title } = Astro.props;
       rel="stylesheet"
     />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class="">
-    <Navbar />
+    <Navbar transition:persist="navbar" />
     <div class="container">
-      <div class="content-container">
+      <div class="content-container" transition:animate="none">
         <slot />
       </div>
       <!-- <Footer /> -->
