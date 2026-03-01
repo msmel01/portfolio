@@ -1,7 +1,7 @@
 {
     "personalStatement": "I design and deploy end-to-end ML pipelines, translating research insight into robust engineering systems.\n\n I'm drawn to interdisciplinary, generalizable, and novel problems. I work best in environments that balance collaboration with ownership.\n\nRight now, I’m building agentic and multimodal AI.",
     "occupation": "Applied AI & ML engineering",
-    "education": "Bachelor of Computer Science - University of Waterloo (UW)",
+    "education": "Bachelor of Computer Science - University of Waterloo",
     "location": "Waterloo, ON",
     "languages": "English, French, Farsi",
     "mlSkills": "End-to-End Model Pipeline: Implementation, Training, Evaluation\nExploratory Data Analysis\nFeature Engineering\nComputer Vision\nTime Series",
@@ -14,7 +14,21 @@
                 "09/23 - 12/23"
             ],
             "title": "Machine Learning Engineer",
-            "summary": "Unsupervised driving scene representation learning with Variational Autoencoders (VAE)"
+            "stack": [
+                "PyTorch",
+                "NumPy",
+                "Pandas",
+                "Scikit-learn",
+                "Matplotlib",
+                "OpenCV"
+            ],
+            "links": [],
+            "bullets": [
+                ["End-to-end development of foundational Variational Autoencoder model for contextual driving scene understanding", ""],
+                ["Validation of embedding quality through custom evaluation metrics, dimensionality reduction and clustering techniques", ""],
+                ["Custom MobileNetV2-UNet as a spatially-preserving, lightweight alternative to the VAE encoder", ""],
+                ["Secured buy-in for research pivot towards both semantic scene understanding and scene graph representation learning", ""]
+            ]
         },
         {
             "employer": "NuraLogix",
@@ -23,7 +37,20 @@
                 "09/22 - 12/22"
             ],
             "title": "Machine Learning Scientist",
-            "summary": "Robust physiological signal processing pipelines"
+            "stack": [
+                "SciPy",
+                "Scikit-learn",
+                "PyTorch",
+                "NumPy",
+                "Pandas",
+                "Matplotlib"
+            ],
+            "links": [],
+            "bullets": [
+                ["Robust physiological signal processing algorithm from driver-facing videos with Fourier analysis and filtering", ""],
+                ["Gaussian Mixture Models and audio source separation transfer learning for signal decomposition", ""],
+                ["Evaluation of PulseGAN for signal denoising and heart rate extraction", ""]
+            ]
         },
         {
             "employer": "Woodbridge Foam Corporation",
@@ -31,23 +58,71 @@
                 "01/22 - 04/22"
             ],
             "title": "Data Scientist",
-            "summary": "Predictive time-series modelling on 100+ GB of manufacturing data"
+            "stack": [
+                "Statsmodels",
+                "NumPy",
+                "Scikit-learn",
+                "Pandas",
+                "FEDOT",
+                "SQL"
+            ],
+            "links": [],
+            "bullets": [
+                ["ETL pipeline for extracting, cleaning, and validating 100+ GB of proprietary manufacturing data", ""],
+                ["Predictive time-series modelling of Indentation Force Deflection (IFD) data to reduce 7-minute QA tests to 30 seconds", ""],
+                ["Statistical Process Control Model integrated into the Woodbrige Data Estate", ""]
+            ]
         },
         {
-            "employer": "Faculty of Engineering @ UW",
+            "employer": "Faculty of Engineering, University of Waterloo",
             "dates": [
                 "06/21 - 08/21"
             ],
-            "title": "Robotics Software Engineer",
-            "summary": "Object detection and ROS2 vision pipeline for underwater robot missions"
+            "title": "Robotics Vision Engineer",
+            "stack": [
+                "ROS2",
+                "PyQT5",
+                "OpenCV",
+                "albumentations"
+            ],
+            "links": [],
+            "bullets": [
+                ["Development of data labelling / augmentation GUI and tooling for training YOLO on underwater mission data", "https://github.com/msmel01/YOLOv3-aquadrone"],
+                ["Ground up design and implementation of Aquadrone robot vision pipeline in ROS2", "https://github.com/Waterloo-Aquadrone/aquadrone-core/tree/dev/vision"]
+            ]
         },
         {
-            "employer": "Digital Assets Group @ UW",
+            "employer": "Digital Assets Group, University of Waterloo",
             "dates": [
                 "05/20 - 08/20"
             ],
-            "title": "Python Software Developer",
-            "summary": "Linear algebra animation tooling for digital educators"
+            "title": "Software Developer",
+            "stack": ["Python"],
+            "links": [],
+            "bullets": [
+                ["In-house animation classes and documentation on top of open-source Manim library", ""]
+            ]
+        }
+    ],
+
+    "extracurricular": [
+        {
+            "employer": "Watonomous Humanoid Team",
+            "dates": [
+                "06/25 - 08/25"
+            ],
+            "title": "Robotics Software Engineer",
+            "stack": [
+                "ROS2",
+                "C++",
+                "Bash",
+                "Docker"
+            ],
+            "links": ["https://github.com/WATonomous/humanoid"],
+            "bullets": [
+                ["Bash tooling to standardize & automate ROS2 package scaﬀolding", "https://github.com/WATonomous/humanoid"],
+                ["Kalman filter in C++ for robot localization", ""]
+            ]
         }
     ],
     "email": "msmirsaj@uwaterloo.ca",

@@ -1,0 +1,56 @@
+---
+interface Job {
+    employer: string;
+    title: string;
+    dates: string[] | string;
+    stack: string[] | string;
+    bullets: string[] | string;
+}
+
+const { job } = Astro.props as { job: Job };
+
+const dates = Array.isArray(job.dates) ? job.dates : [job.dates];
+const stack = Array.isArray(job.stack) ? job.stack : [job.stack];
+const bullets = Array.isArray(job.bullets) ? job.bullets : [job.bullets];
+
+const rotations = stack.map(() => (Math.random() * 3 - 1.5).toFixed(2)); // –1.5 to +1.5 deg
+
+import "../styles/employment.css";
+---
+
+<div class="job-card">
+    <div class="job-header">
+        <span class="employer">{job.employer}</span>
+        <span class="date">{dates[0]}</span>
+    </div>
+    <div class="job-subheader">
+        <span class="title">{job.title}</span>
+        {dates[1] && <span class="date">{dates[1]}</span>}
+    </div>
+    {
+        stack.length > 0 && stack[0] !== "" && (
+            <div class="stack">
+                {stack.map((s, i) => (
+                    <span
+                        class="tag"
+                        style={`transform: rotate(${rotations[i]}deg)`}
+                    >
+                        [{s}] 
+                    </span>
+                ))}
+            </div>
+        )
+    }
+    <ul class="bullets">
+    {bullets.map((b) => b && (
+        <li>
+            {b[0]}
+            {b[1] !== "" && (
+                <a href={b[1]} target="_blank" rel="noopener">
+                    <i class="ri-external-link-fill"></i>
+                </a>
+            )}
+        </li>
+    ))}
+</ul>
+</div>

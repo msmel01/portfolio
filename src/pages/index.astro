@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import EmploymentTable from "../components/EmploymentTable.astro";
+import EmploymentCard from "../components/EmploymentCard.astro";
 import StickyNote from "../components/StickyNote.astro";
 
 import "../styles/index.css";
@@ -110,17 +110,16 @@ import content from "../content/index.json";
 	</section>
 
 	<section>
-		<h1 class="heading-section">Employment History</h1>
-		<EmploymentTable employment={content.employment} />
-		<br />
-		<p class="value">
-			Refer to <a href="#">resume</a> for in-depth responsibilities.
-		</p>
-	</section>
+		<h1 class="heading-section">Work Experience</h1>
+		{content.employment.map((job) => <EmploymentCard job={job} />)}
+		<hr style="margin-bottom: 20px;" />
+		{content.extracurricular.map((job) => <EmploymentCard job={job} />)}
 
-	<!-- <section>
-		<h1 class="heading-section">Interests</h1>
-	</section> -->
+		<!-- <br /> -->
+		<!-- <p class="value">
+			Refer to <a href="#">resume</a> for in-depth responsibilities.
+		</p> -->
+	</section>
 
 	<section>
 		<h1 class="heading-section">Contact Information</h1>
