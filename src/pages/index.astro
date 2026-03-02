@@ -112,7 +112,7 @@ import content from "../content/index.json";
 	<section>
 		<h1 class="heading-section">Work Experience</h1>
 		{content.employment.map((job) => <EmploymentCard job={job} />)}
-		<hr style="margin-bottom: 20px;" />
+		<hr style="margin-bottom: 20px; color:#ccc;" />
 		{content.extracurricular.map((job) => <EmploymentCard job={job} />)}
 
 		<!-- <br /> -->
@@ -124,20 +124,29 @@ import content from "../content/index.json";
 	<section>
 		<h1 class="heading-section">Contact Information</h1>
 		<p>
-			<span class="label">Email:</span>
-			<span class="value">{content.email}</span>
+			<span class="label"><i class="ri-mail-fill"></i> Email:</span>
+			<a class="value" href={content.email} target="_blank" rel="noopener">{content.email}</a>
 		</p>
-		<a
+
+		<p>
+			<span class="label"><i class="ri-github-fill"></i> Github:</span>
+			<a class="value" href={content.github} target="_blank" rel="noopener">{content.github}</a>
+		</p>
+		<p>
+			<span class="label"><i class="ri-linkedin-box-fill"></i> Linkedin:</span>
+			<a class="value" href={content.linkedin} target="_blank" rel="noopener">{content.linkedin}</a>
+		</p>
+		<!-- <a
 			class="social-media-icons"
 			href={content.github}
 			target="_blank"
 			rel="noopener"><i class="ri-github-fill"></i></a
-		>
-		<a
+		> -->
+		<!-- <a
 			class="social-media-icons"
 			href={content.linkedin}
 			target="_blank"
 			rel="noopener"><i class="ri-linkedin-box-fill"></i></a
-		>
+		> -->
 	</section>
 </BaseLayout>

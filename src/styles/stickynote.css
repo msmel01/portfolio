@@ -1,0 +1,74 @@
+.sticky {
+    position: relative;
+    width: min(300px, 88vw);
+    aspect-ratio: 1 / 1;
+    background-color: #fef08a;
+
+    background-image: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 27px,
+            rgba(150, 150, 100, 0.25) 27px,
+            rgba(150, 150, 100, 0.25) 28px);
+    /* padding must be fixed — any clamp() here causes drift */
+    padding: 16px;
+    /* shift the grid down by exactly padding-top so rules fall under each row */
+    background-position: 0 16px;
+    transform: rotate(-2deg);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.sticky::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: linear-gradient(180deg,
+            rgba(0, 0, 0, 0.13) 0%,
+            rgba(0, 0, 0, 0.05) 50%,
+            rgba(0, 0, 0, 0.01) 100%);
+    pointer-events: none;
+}
+
+.sticky::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    box-shadow:
+        0px 8px 4px -2px rgba(0, 0, 0, 0.06),
+        0px 20px 8px -4px rgba(0, 0, 0, 0.1),
+        0px 38px 12px -4px rgba(0, 0, 0, 0.13),
+        0px 55px 14px -2px rgba(0, 0, 0, 0.12),
+        0px 70px 16px 0px rgba(0, 0, 0, 0.1);
+}
+
+.lines {
+    display: flex;
+    flex-direction: column;
+    /* font-family: 'No Tears'; */
+    font-family: 'Inconsolata';
+    /* font-weight: bold; */
+    font-size: 2rem;
+}
+
+.title {
+    /* font-family: 'No Tears'; */
+    font-weight: bolder;
+    font-family: 'Inconsolata';
+    font-size: 1.3rem;
+    line-height: 28px;
+    height: 28px;
+}
+
+.line {
+    line-height: 28px;
+    min-height: 28px;
+    /* font-size: 1rem; */
+    font-size: 1.1rem;
+}
+
+.blank {
+    visibility: hidden;
+}

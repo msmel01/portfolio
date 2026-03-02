@@ -54,7 +54,9 @@
     /* tucks under the border-bottom of #tabs */
     text-decoration: none;
     color: #333;
-    font-family: 'Geist Mono';
+    /* font-family: 'Geist Mono'; */
+    font-family: 'Inconsolata';
+    font-size: 1.4rem;
     /* 1px smaller bevel to sit inside the ::before border layer */
     clip-path: polygon(9px 0,
             calc(100% - 9px) 0,

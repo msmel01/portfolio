@@ -12,8 +12,15 @@ html {
     font-family: 'Geist ExtraBold';
     src: url('/src/assets/fonts/Geist-ExtraBold.woff2') format('woff2'),
         url('/src/assets/fonts/Geist-ExtraBold.woff') format('woff');
-    /* font-weight: 1000; */
     font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Deja Vu Serif Condensed';
+    src: url('/src/assets/fonts/DejaVuSerifCondensed-Bold.ttf') format('truetype');
+    font-style: normal;
+    /* font-weight: bold; */
     font-display: swap;
 }
 
@@ -33,11 +40,10 @@ html {
     font-display: swap;
 }
 
-/* 
 @font-face {
-    font-family: 'Roboto Serif';
-    src: url('/src/assets/fonts/RobotoSerif.ttf') format('truetype');
+    font-family: 'Inconsolata';
+    src: url('/src/assets/fonts/Inconsolata-VariableFont_wdth\,wght.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
-} */
+}
