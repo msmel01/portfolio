@@ -4,11 +4,11 @@
     aspect-ratio: 1 / 1;
     background-color: #fef08a;
 
-    background-image: repeating-linear-gradient(0deg,
+    /* background-image: repeating-linear-gradient(0deg,
             transparent,
             transparent 27px,
             rgba(150, 150, 100, 0.25) 27px,
-            rgba(150, 150, 100, 0.25) 28px);
+            rgba(150, 150, 100, 0.25) 28px); */
     /* padding must be fixed — any clamp() here causes drift */
     padding: 16px;
     /* shift the grid down by exactly padding-top so rules fall under each row */

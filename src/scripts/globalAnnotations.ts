@@ -32,14 +32,14 @@ interface AnnotationItem {
 // ---------------------------------------------------------------------------
 
 const ANNOTATION_DEFS: AnnotationDef[] = [
-    { selector: '.checkbox-square',  order: 0, config: { type: 'crossed-off', padding: 5,                 strokeWidth: 1.5, color: '#5703EF', iterations: 1 } },
-    { selector: '.personal-line-1',  order: 1, config: { type: 'highlight',   padding: 5,                 strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
-    { selector: '.personal-line-2',  order: 2, config: { type: 'highlight',   padding: 5,                 strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
-    { selector: '.personal-line-3',  order: 3, config: { type: 'highlight',   padding: 5,                 strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
-    { selector: '.personal-line-4',  order: 4, config: { type: 'highlight',   padding: [5, 5, 5, 5],      strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
-    { selector: '.now-link',         order: 5, config: { type: 'circle',      padding: [0, 2, 3, 8],      color: '#5703EF', iterations: 1 } },
-    { selector: '.skill-text',       order: 6, config: { type: 'highlight',   padding: 5,                 strokeWidth: 1.5, color: '#F5DF4D' }, multiple: true },
-    { selector: '.project-link',     order: 7, config: { type: 'circle',      padding: [0, 10, 5, 10],    color: '#5703EF', iterations: 1 } },
+    { selector: '.checkbox-square', order: 0, config: { type: 'crossed-off', padding: 5, strokeWidth: 1.5, color: '#5703EF', iterations: 1 } },
+    { selector: '.personal-line-1', order: 1, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
+    { selector: '.personal-line-2', order: 2, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
+    { selector: '.personal-line-3', order: 3, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
+    { selector: '.personal-line-4', order: 4, config: { type: 'highlight', padding: [5, 5, 5, 5], strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
+    { selector: '.now-link', order: 5, config: { type: 'circle', padding: [0, 2, 3, 8], color: '#5703EF', iterations: 1 } },
+    { selector: '.skill-text', order: 6, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D' }, multiple: true },
+    { selector: '.project-link', order: 7, config: { type: 'circle', padding: [0, 10, 5, 10], color: '#5703EF', iterations: 1 } },
 ];
 
 const DRAW_DURATION_MS = 450;
@@ -61,10 +61,10 @@ let currentWidth = 0;
 // ---------------------------------------------------------------------------
 
 function normalizePadding(p: number | number[] | undefined): [number, number, number, number] {
-    if (p === undefined)    return [5, 5, 5, 5];
+    if (p === undefined) return [5, 5, 5, 5];
     if (typeof p === 'number') return [p, p, p, p];
-    if (p.length === 2)     return [p[0], p[1], p[0], p[1]];
-    if (p.length === 4)     return p as [number, number, number, number];
+    if (p.length === 2) return [p[0], p[1], p[0], p[1]];
+    if (p.length === 4) return p as [number, number, number, number];
     return [5, 5, 5, 5];
 }
 
@@ -78,10 +78,10 @@ function ensureStyles() {
         @keyframes rgh-draw {
             to { stroke-dashoffset: 0; }
         }
-        /* left-to-right reveal for highlight fill */
+        /* left-to-right reveal for highlight fill — scaleX is compositor-accelerated */
         @keyframes rgh-reveal {
-            from { clip-path: inset(0 100% 0 0); }
-            to   { clip-path: inset(0 0%   0 0); }
+            from { transform: scaleX(0); }
+            to   { transform: scaleX(1); }
         }
     `;
     document.head.appendChild(style);
@@ -124,7 +124,7 @@ function getLocalOffset(el: HTMLElement, container: HTMLElement): { top: number;
     let top = 0, left = 0;
     let node: HTMLElement | null = el;
     while (node && node !== container) {
-        top  += node.offsetTop;
+        top += node.offsetTop;
         left += node.offsetLeft;
         node = node.offsetParent as HTMLElement | null;
     }
@@ -147,18 +147,18 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
     if (rect.width === 0 || rect.height === 0) return null;
 
     const [padTop, padRight, padBottom, padLeft] = normalizePadding(config.padding);
-    const svgW  = rect.width  + padLeft + padRight;
-    const svgH  = rect.height + padTop  + padBottom;
+    const svgW = rect.width + padLeft + padRight;
+    const svgH = rect.height + padTop + padBottom;
 
     // Use document-space coords (position:absolute on body) — bakes in scrollY so
     // the SVG never needs to move on scroll.
-    const cssTop  = rect.top  + window.scrollY - padTop;
+    const cssTop = rect.top + window.scrollY - padTop;
     const cssLeft = rect.left + window.scrollX - padLeft;
 
     const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg') as SVGSVGElement;
     svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    svgEl.setAttribute('width',   String(svgW));
-    svgEl.setAttribute('height',  String(svgH));
+    svgEl.setAttribute('width', String(svgW));
+    svgEl.setAttribute('height', String(svgH));
     svgEl.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
     svgEl.classList.add('rgh-annotation');
 
@@ -181,12 +181,12 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
     ].join(';');
 
     const seed = (Math.abs(Math.round(cssTop * cssLeft)) % 9999) + 1;
-    const rc   = rough.svg(svgEl);
+    const rc = rough.svg(svgEl);
 
     const baseOpts = {
-        roughness:    1.8,
-        strokeWidth:  config.strokeWidth ?? 1.5,
-        stroke:       config.color ?? '#000',
+        roughness: 1.8,
+        strokeWidth: config.strokeWidth ?? 1.5,
+        stroke: config.color ?? '#000',
         seed,
         disableMultiStroke: false,
     };
@@ -203,19 +203,19 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
 
         rects.forEach((lineRect, i) => {
             const lx = (lineRect.left + window.scrollX) - cssLeft;
-            const ly = (lineRect.top  + window.scrollY) - cssTop;
+            const ly = (lineRect.top + window.scrollY) - cssTop;
             const lw = lineRect.width;
             const lh = lineRect.height;
             const lineSeed = (seed + i * 37) % 9999 || 1;
 
             const node = rc.rectangle(lx, ly, lw, lh, {
                 ...baseOpts,
-                seed:        lineSeed,
-                fill:        baseColor,
-                fillStyle:   'solid',
-                stroke:      'none',
+                seed: lineSeed,
+                fill: baseColor,
+                fillStyle: 'solid',
+                stroke: 'none',
                 strokeWidth: 0,
-                roughness:   1,
+                roughness: 1,
                 disableMultiStroke: true,
             });
             g.appendChild(node);
@@ -228,8 +228,8 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
         // Shrink to 60% of the SVG, centered, so the X sits tightly over the text
         const scaleX = svgW * 0.2;
         const scaleY = svgH * 0.2;
-        const line1 = rc.line(scaleX,        scaleY,        svgW - scaleX, svgH - scaleY, crossedOpts);
-        const line2 = rc.line(svgW - scaleX, scaleY,        scaleX,        svgH - scaleY, crossedOpts);
+        const line1 = rc.line(scaleX, scaleY, svgW - scaleX, svgH - scaleY, crossedOpts);
+        const line2 = rc.line(svgW - scaleX, scaleY, scaleX, svgH - scaleY, crossedOpts);
         svgEl.appendChild(line1);
         svgEl.appendChild(line2);
 
@@ -255,8 +255,9 @@ function animateSVG(svgEl: SVGSVGElement) {
     const highlightGroup = svgEl.querySelector<SVGGElement>('[data-rgh-highlight]');
 
     if (highlightGroup) {
-        // Clip-path reveal left → right
-        highlightGroup.style.clipPath = 'inset(0 100% 0 0)';
+        // scaleX reveal left → right (GPU compositor, no repaint per frame)
+        highlightGroup.style.transformOrigin = '0 0';
+        highlightGroup.style.transform = 'scaleX(0)';
         highlightGroup.style.animation =
             `rgh-reveal ${DRAW_DURATION_MS}ms ease forwards`;
         return;
@@ -264,15 +265,15 @@ function animateSVG(svgEl: SVGSVGElement) {
 
     // stroke-dashoffset draw for circle / crossed-off
     const paths = svgEl.querySelectorAll<SVGPathElement>('path');
-    const count  = paths.length;
+    const count = paths.length;
     paths.forEach((path, i) => {
         try {
             const len = path.getTotalLength();
-            path.style.strokeDasharray  = String(len);
+            path.style.strokeDasharray = String(len);
             path.style.strokeDashoffset = String(len);
             // Each subsequent path in the same annotation (e.g. both lines of X)
             // starts slightly after the previous one finishes.
-            const dur   = DRAW_DURATION_MS;
+            const dur = DRAW_DURATION_MS;
             const delay = i * (dur / Math.max(count, 1)) * 0.5;
             path.style.animation =
                 `rgh-draw ${dur}ms ease ${delay}ms forwards`;
@@ -288,10 +289,10 @@ function animateSVG(svgEl: SVGSVGElement) {
 
 export function setupAnnotations() {
     // ---- cleanup ----
-    if (activeObserver)  { activeObserver.disconnect();  activeObserver  = null; }
-    if (resizeObserver)  { resizeObserver.disconnect();  resizeObserver  = null; }
-    if (resizeTimeout)   { clearTimeout(resizeTimeout);  resizeTimeout   = null; }
-    if (resizeHandler)   { window.removeEventListener('resize', resizeHandler);  resizeHandler  = null; }
+    if (activeObserver) { activeObserver.disconnect(); activeObserver = null; }
+    if (resizeObserver) { resizeObserver.disconnect(); resizeObserver = null; }
+    if (resizeTimeout) { clearTimeout(resizeTimeout); resizeTimeout = null; }
+    if (resizeHandler) { window.removeEventListener('resize', resizeHandler); resizeHandler = null; }
     snapListeners.forEach(({ el, type, fn }) => el.removeEventListener(type, fn));
     snapListeners = [];
     document.querySelectorAll('svg.rgh-annotation').forEach(s => s.remove());
@@ -312,8 +313,8 @@ export function setupAnnotations() {
             items.push({
                 el,
                 config: def.config,
-                order:  def.order + (def.multiple ? i * 0.1 : 0),
-                svg:    null,
+                order: def.order + (def.multiple ? i * 0.1 : 0),
+                svg: null,
             });
         });
     }
@@ -361,7 +362,7 @@ export function setupAnnotations() {
                 if (!item.svg || !ancestor.contains(item.el)) return;
                 const r = item.el.getBoundingClientRect();
                 const [padTop, , , padLeft] = normalizePadding(item.config.padding);
-                item.svg.style.top  = `${r.top  + window.scrollY - padTop}px`;
+                item.svg.style.top = `${r.top + window.scrollY - padTop}px`;
                 item.svg.style.left = `${r.left + window.scrollX - padLeft}px`;
                 item.svg.style.transform = '';
             });
@@ -385,8 +386,8 @@ export function setupAnnotations() {
         ancestor.addEventListener('mouseleave', startFn);
         ancestor.addEventListener('transitionend', stopFn);
         snapListeners.push(
-            { el: ancestor, type: 'mouseenter',   fn: startFn },
-            { el: ancestor, type: 'mouseleave',   fn: startFn },
+            { el: ancestor, type: 'mouseenter', fn: startFn },
+            { el: ancestor, type: 'mouseleave', fn: startFn },
             { el: ancestor, type: 'transitionend', fn: stopFn },
         );
     });
@@ -399,7 +400,7 @@ export function setupAnnotations() {
     // items fire in sorted order with a stagger between them — items that
     // haven't entered the viewport yet are skipped, not blocked.
 
-    const pending  = new Set<number>();
+    const pending = new Set<number>();
     const animated = new Set<number>();
     let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -408,12 +409,12 @@ export function setupAnnotations() {
         let staggerSlot = 0;
         for (let i = 0; i < items.length; i++) {
             if (animated.has(i)) continue;   // already done
-            if (!pending.has(i))  continue;   // not in viewport yet — skip, don't block later items
+            if (!pending.has(i)) continue;   // not in viewport yet — skip, don't block later items
 
             pending.delete(i);
             animated.add(i);
 
-            const item  = items[i];
+            const item = items[i];
             const delay = staggerSlot * STAGGER_MS;
             staggerSlot++;
 
