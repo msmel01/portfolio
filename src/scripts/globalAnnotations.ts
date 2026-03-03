@@ -53,6 +53,7 @@ let activeObserver: IntersectionObserver | null = null;
 let resizeObserver: ResizeObserver | null = null;
 let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 let resizeHandler: (() => void) | null = null;
+let snapListeners: Array<{ el: HTMLElement; type: string; fn: EventListener }> = [];
 let currentWidth = 0;
 
 // ---------------------------------------------------------------------------
@@ -91,9 +92,9 @@ function ensureStyles() {
 // ---------------------------------------------------------------------------
 
 /**
- * Walk up the ancestor chain and accumulate any CSS rotation (in degrees).
- * Computed transforms are returned as matrix(a,b,c,d,e,f); the rotation
- * angle is atan2(b, a).
+ * Walk up the ancestor chain and accumulate the CSS Z-rotation (in degrees).
+ * Handles both matrix(a,b,c,d,e,f) and matrix3d(...) — in both cases the
+ * Z-rotation is atan2(b, a) at indices 0 and 1.
  */
 function getAncestorRotationDeg(el: HTMLElement): number {
     let total = 0;
@@ -101,15 +102,44 @@ function getAncestorRotationDeg(el: HTMLElement): number {
     while (node && node !== document.body) {
         const t = window.getComputedStyle(node).transform;
         if (t && t !== 'none') {
-            const m = t.match(/^matrix\(([^)]+)\)/);
+            // match both matrix(...) and matrix3d(...)
+            const m = t.match(/^matrix(?:3d)?\(([^)]+)\)/);
             if (m) {
-                const [a, b] = m[1].split(',').map(Number);
-                total += Math.atan2(b, a) * (180 / Math.PI);
+                const vals = m[1].split(',').map(Number);
+                total += Math.atan2(vals[1], vals[0]) * (180 / Math.PI);
             }
         }
         node = node.parentElement;
     }
     return total;
+}
+
+/**
+ * Get the position of `el` in the local (pre-transform) coordinate system of `container`.
+ * `offsetTop`/`offsetLeft` walk is correct for absolutely-positioned children inside
+ * a transformed container — unlike getBoundingClientRect() which gives post-transform
+ * viewport coordinates.
+ */
+function getLocalOffset(el: HTMLElement, container: HTMLElement): { top: number; left: number } {
+    let top = 0, left = 0;
+    let node: HTMLElement | null = el;
+    while (node && node !== container) {
+        top  += node.offsetTop;
+        left += node.offsetLeft;
+        node = node.offsetParent as HTMLElement | null;
+    }
+    return { top, left };
+}
+
+/** Find the nearest ancestor with a CSS transition property set (below document.body). */
+function findTransitioningAncestor(el: HTMLElement): HTMLElement | null {
+    let node: HTMLElement | null = el.parentElement;
+    while (node && node !== document.body) {
+        const t = window.getComputedStyle(node).transition;
+        if (t && t !== 'none' && !t.startsWith('all 0s')) return node;
+        node = node.parentElement;
+    }
+    return null;
 }
 
 function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | null {
@@ -120,7 +150,8 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
     const svgW  = rect.width  + padLeft + padRight;
     const svgH  = rect.height + padTop  + padBottom;
 
-    // Position in document coordinates
+    // Use document-space coords (position:absolute on body) — bakes in scrollY so
+    // the SVG never needs to move on scroll.
     const cssTop  = rect.top  + window.scrollY - padTop;
     const cssLeft = rect.left + window.scrollX - padLeft;
 
@@ -131,12 +162,8 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
     svgEl.setAttribute('viewBox', `0 0 ${svgW} ${svgH}`);
     svgEl.classList.add('rgh-annotation');
 
-    // If the element sits inside a rotated ancestor (e.g. the tilted sticky note),
-    // rotate the SVG to match so it wraps the text correctly.
     const rotationDeg = getAncestorRotationDeg(el);
-    const transformStyle = rotationDeg !== 0
-        ? `transform-origin:center;transform:rotate(${rotationDeg}deg)`
-        : '';
+    const baseTransform = rotationDeg !== 0 ? `rotate(${rotationDeg}deg)` : '';
 
     svgEl.style.cssText = [
         'position:absolute',
@@ -148,8 +175,9 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
         'overflow:visible',
         `z-index:${config.type === 'highlight' ? 2 : 3}`,
         ...(config.type === 'highlight' ? ['mix-blend-mode:multiply'] : []),
-        'opacity:0',           // starts hidden; set to 1 in animateSVG
-        ...(transformStyle ? [transformStyle] : []),
+        'opacity:0',
+        'transform-origin:center',
+        ...(baseTransform ? [`transform:${baseTransform}`] : []),
     ].join(';');
 
     const seed = (Math.abs(Math.round(cssTop * cssLeft)) % 9999) + 1;
@@ -174,8 +202,6 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
         const rects = lineRects.length > 0 ? lineRects : [el.getBoundingClientRect()];
 
         rects.forEach((lineRect, i) => {
-            // Convert each line rect into SVG-local coordinates.
-            // SVG origin is at (cssLeft, cssTop) in document space.
             const lx = (lineRect.left + window.scrollX) - cssLeft;
             const ly = (lineRect.top  + window.scrollY) - cssTop;
             const lw = lineRect.width;
@@ -265,7 +291,9 @@ export function setupAnnotations() {
     if (activeObserver)  { activeObserver.disconnect();  activeObserver  = null; }
     if (resizeObserver)  { resizeObserver.disconnect();  resizeObserver  = null; }
     if (resizeTimeout)   { clearTimeout(resizeTimeout);  resizeTimeout   = null; }
-    if (resizeHandler)   { window.removeEventListener('resize', resizeHandler); resizeHandler = null; }
+    if (resizeHandler)   { window.removeEventListener('resize', resizeHandler);  resizeHandler  = null; }
+    snapListeners.forEach(({ el, type, fn }) => el.removeEventListener(type, fn));
+    snapListeners = [];
     document.querySelectorAll('svg.rgh-annotation').forEach(s => s.remove());
 
     ensureStyles();
@@ -302,7 +330,65 @@ export function setupAnnotations() {
     items.forEach((item, idx) => {
         item.svg = buildSVG(item.el, item.config);
         if (item.svg) document.body.appendChild(item.svg);
-        item.el.dataset.rghIdx = String(idx);     // used by observer below
+        item.el.dataset.rghIdx = String(idx);
+    });
+
+    // ---- live-track SVG positions for elements inside CSS-transitioning ancestors ----
+    //
+    // The SVG lives in document.body, so it can't inherit transforms from a parent like
+    // .sticky. Instead, we run a rAF loop while the ancestor is transitioning so the SVG
+    // follows the element's viewport position every frame (getBoundingClientRect() always
+    // reflects the current post-transform position). The loop stops on transitionend.
+    const ancestorSet = new Set<HTMLElement>();
+    items.forEach(item => {
+        if (!item.svg) return;
+        let node: HTMLElement | null = item.el.parentElement;
+        while (node && node !== document.body) {
+            const t = window.getComputedStyle(node).transition;
+            if (t && t !== 'none' && !t.startsWith('all 0s')) {
+                ancestorSet.add(node);
+                break;
+            }
+            node = node.parentElement;
+        }
+    });
+
+    ancestorSet.forEach(ancestor => {
+        let rafId: number | null = null;
+
+        const repositionChildren = () => {
+            items.forEach(item => {
+                if (!item.svg || !ancestor.contains(item.el)) return;
+                const r = item.el.getBoundingClientRect();
+                const [padTop, , , padLeft] = normalizePadding(item.config.padding);
+                item.svg.style.top  = `${r.top  + window.scrollY - padTop}px`;
+                item.svg.style.left = `${r.left + window.scrollX - padLeft}px`;
+                item.svg.style.transform = '';
+            });
+        };
+
+        const loop = () => {
+            repositionChildren();
+            rafId = requestAnimationFrame(loop);
+        };
+
+        const startFn: EventListener = () => {
+            if (rafId === null) loop();
+        };
+        const stopFn: EventListener = () => {
+            if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+            // Final snap to the settled position
+            repositionChildren();
+        };
+
+        ancestor.addEventListener('mouseenter', startFn);
+        ancestor.addEventListener('mouseleave', startFn);
+        ancestor.addEventListener('transitionend', stopFn);
+        snapListeners.push(
+            { el: ancestor, type: 'mouseenter',   fn: startFn },
+            { el: ancestor, type: 'mouseleave',   fn: startFn },
+            { el: ancestor, type: 'transitionend', fn: stopFn },
+        );
     });
 
     // ---- viewport-triggered animation ----
