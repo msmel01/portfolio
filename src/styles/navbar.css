@@ -220,7 +220,7 @@ body.menu-open {
 }
 
 /* below 900px — hide tabs, show clip as hamburger */
-@media (max-width: 900px) {
+@media (max-width: 1070px) {
     .navbar {
         margin-top: 3.5em;
     }
@@ -237,7 +237,7 @@ body.menu-open {
 }
 
 /* above 900px — hide mobile menu, show tabs normally */
-@media (min-width: 901px) {
+@media (min-width: 1071px) {
     .mobile-menu {
         display: none !important;
     }

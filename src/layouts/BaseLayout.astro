@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { ClientRouter, fade } from 'astro:transitions';
+import { ClientRouter, fade } from "astro:transitions";
 const { title } = Astro.props;
 ---
 
@@ -27,6 +27,16 @@ const { title } = Astro.props;
     </div>
   </body>
 </html>
+
+<script>
+  import { setupAnnotations } from "../scripts/globalAnnotations";
+
+  // astro:page-load fires on both first load and every client-side navigation.
+  document.addEventListener("astro:page-load", () => {
+    // Small delay so the new page's DOM is fully laid out before measuring.
+    setTimeout(() => setupAnnotations(), 80);
+  });
+</script>
 
 <style>
   .container {

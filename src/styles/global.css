@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Disable Astro's default cross-fade so annotations don't visually
+   disappear on the outgoing page before the new page appears */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+}
+
 body {
     overflow-x: hidden;
 }

@@ -8,145 +8,201 @@ import content from "../content/index.json";
 ---
 
 <BaseLayout title="About - Melika Mir Sajjadi">
-	<section>
-		<h1 class="heading-main">Melika Mir Sajjadi</h1>
-		<p>
-			<span class="label">Domain:</span>
-			<span class="value">{content.occupation}</span>
-		</p>
-		<p>
-			<span class="label">Education:</span>
-			<span class="value">{content.education}</span>
-		</p>
-		<p>
-			<span class="label">Location:</span>
-			<span class="value">{content.location}</span>
-		</p>
-		<p class="flex-row">
-			<span class="label">Open to work:</span>
-			<span class="flex-row-inner">
-				<span class="checkbox-label">Yes</span>
-				<span class="checkbox-square"
-					><span class="checkbox-x">&#10005;</span></span
-				>
-			</span>
-			<span class="flex-row-inner">
-				<span class="checkbox-label">No</span>
-				<span class="checkbox-square"><!-- Empty box --></span>
-			</span>
-		</p>
-		<p>
-			<span class="label">Languages:</span>
-			<span class="value">{content.languages}</span>
-		</p>
-	</section>
+	<div class="page-wrapper">
+		<section>
+			<h1 class="heading-main">Melika Mir Sajjadi</h1>
+			<p>
+				<span class="label">Domain:</span>
+				<span class="value">{content.occupation}</span>
+			</p>
+			<p>
+				<span class="label">Education:</span>
+				<span class="value">{content.education}</span>
+			</p>
+			<p>
+				<span class="label">Location:</span>
+				<span class="value">{content.location}</span>
+			</p>
+			<p class="flex-row">
+				<span class="label">Open to work:</span>
+				<span class="flex-row-inner">
+					<span class="checkbox-label">Yes</span>
+					<!-- <span class="checkbox-square"> -->
+					<!-- <span class="checkbox-x">&#10005;</span> -->
+					<!-- </span> -->
+					<span class="checkbox-square"></span>
+				</span>
+				<span class="flex-row-inner">
+					<span class="checkbox-label">No</span>
+					<span class="checkbox-square"><!-- Empty box --></span>
+				</span>
+			</p>
+			<p>
+				<span class="label">Languages:</span>
+				<span class="value">{content.languages}</span>
+			</p>
+		</section>
 
-	<section class="personal-sticky-row">
-		<div class="personal-statement-col">
-			<h1 class="heading-section">Personal Statement</h1>
-			<p class="value">
-				{
+		<section class="personal-sticky-row">
+			<div class="personal-statement-col">
+				<h1 class="heading-section">Personal Statement</h1>
+				<p class="value">
+					<!-- {
 					content.personalStatement.split("\n").map((line) => (
 						<>
 							{line}
 							<br />
 						</>
 					))
-				}
+				} -->
+					I design and deploy end-to-end ML pipelines, translating research
+					insight into robust engineering systems.<br /><br /> I'm drawn
+					to
+					<span class="personal-line-1">interdisciplinary</span>, <span
+						class="personal-line-2">generalizable</span
+					>, and <span class="personal-line-3">novel</span> problems. I
+					work best in environments that balance collaboration with ownership.<br
+					/><br />Right now, I’m building <span
+						class="personal-line-4">agentic and multimodal AI</span
+					>.
+				</p>
+			</div>
+			<div class="sticky-note-col sticky-note-overlap">
+				<StickyNote />
+			</div>
+		</section>
+
+		<section>
+			<h1 class="heading-section">Skills</h1>
+			<p>
+				<span class="label skill-label"
+					><span class="skill-text">ML Research & Development</span
+					></span
+				>
+				<span class="value">
+					{
+						content.mlSkills.split("\n").map((line) => (
+							<>
+								{line}
+								<br />
+							</>
+						))
+					}
+				</span>
 			</p>
-		</div>
-		<div class="sticky-note-col sticky-note-overlap">
-			<StickyNote />
-		</div>
-	</section>
+			<br />
+			<p>
+				<span class="label skill-label"
+					><span class="skill-text">LLM Engineering</span></span
+				>
+				<span class="value">
+					{
+						content.llmSkills.split("\n").map((line) => (
+							<>
+								{line}
+								<br />
+							</>
+						))
+					}
+				</span>
+			</p>
+			<br />
+			<p>
+				<span class="label skill-label"
+					><span class="skill-text">Robotics</span></span
+				>
+				<span class="value">
+					{
+						content.roboticsSkills.split("\n").map((line) => (
+							<>
+								{line}
+								<br />
+							</>
+						))
+					}
+				</span>
+			</p>
+			<br />
+			<p class="value">
+				See my <a href="/projects" class="project-link">projects</a>.
+			</p>
+		</section>
 
-	<section>
-		<h1 class="heading-section">Skills</h1>
-		<p>
-			<span class="label skill-label">ML Research & Development</span>
-			<span class="value">
-				{
-					content.mlSkills.split("\n").map((line) => (
-						<>
-							{line}
-							<br />
-						</>
-					))
-				}
-			</span>
-		</p>
-		<br />
-		<p>
-			<span class="label skill-label">LLM Engineering</span>
-			<span class="value">
-				{
-					content.llmSkills.split("\n").map((line) => (
-						<>
-							{line}
-							<br />
-						</>
-					))
-				}
-			</span>
-		</p>
-		<br />
-		<p>
-			<span class="label skill-label">Robotics</span>
-			<span class="value">
-				{
-					content.roboticsSkills.split("\n").map((line) => (
-						<>
-							{line}
-							<br />
-						</>
-					))
-				}
-			</span>
-		</p>
-		<br />
-		<p class="value">
-			See my <a href="/projects">projects</a>.
-		</p>
-	</section>
+		<section>
+			<h1 class="heading-section">Work Experience</h1>
+			{content.employment.map((job) => <EmploymentCard job={job} />)}
+			<hr style="margin-bottom: 20px; color:#ccc;" />
+			{content.extracurricular.map((job) => <EmploymentCard job={job} />)}
 
-	<section>
-		<h1 class="heading-section">Work Experience</h1>
-		{content.employment.map((job) => <EmploymentCard job={job} />)}
-		<hr style="margin-bottom: 20px; color:#ccc;" />
-		{content.extracurricular.map((job) => <EmploymentCard job={job} />)}
-
-		<!-- <br /> -->
-		<!-- <p class="value">
+			<!-- <br /> -->
+			<!-- <p class="value">
 			Refer to <a href="#">resume</a> for in-depth responsibilities.
 		</p> -->
-	</section>
+		</section>
 
-	<section>
-		<h1 class="heading-section">Contact Information</h1>
-		<p>
-			<span class="label"><i class="ri-mail-fill"></i> Email:</span>
-			<a class="value" href={content.email} target="_blank" rel="noopener">{content.email}</a>
-		</p>
+		<section>
+			<h1 class="heading-section">Contact Information</h1>
+			<p>
+				<span class="label"><i class="ri-mail-fill"></i> Email:</span>
+				<a
+					class="value"
+					href={content.email}
+					target="_blank"
+					rel="noopener">{content.email}</a
+				>
+			</p>
 
-		<p>
-			<span class="label"><i class="ri-github-fill"></i> Github:</span>
-			<a class="value" href={content.github} target="_blank" rel="noopener">{content.github}</a>
-		</p>
-		<p>
-			<span class="label"><i class="ri-linkedin-box-fill"></i> Linkedin:</span>
-			<a class="value" href={content.linkedin} target="_blank" rel="noopener">{content.linkedin}</a>
-		</p>
-		<!-- <a
+			<p>
+				<span class="label"><i class="ri-github-fill"></i> Github:</span
+				>
+				<a
+					class="value"
+					href={content.github}
+					target="_blank"
+					rel="noopener">{content.github}</a
+				>
+			</p>
+			<p>
+				<span class="label"
+					><i class="ri-linkedin-box-fill"></i> Linkedin:</span
+				>
+				<a
+					class="value"
+					href={content.linkedin}
+					target="_blank"
+					rel="noopener">{content.linkedin}</a
+				>
+			</p>
+			<!-- <a
 			class="social-media-icons"
 			href={content.github}
 			target="_blank"
 			rel="noopener"><i class="ri-github-fill"></i></a
 		> -->
-		<!-- <a
+			<!-- <a
 			class="social-media-icons"
 			href={content.linkedin}
 			target="_blank"
 			rel="noopener"><i class="ri-linkedin-box-fill"></i></a
 		> -->
-	</section>
+		</section>
+	</div>
 </BaseLayout>
+
+<style>
+	/* section {
+		overflow: visible;
+	}
+
+	p {
+		overflow: visible;
+	} */
+
+	.flex-row-inner,
+	.value,
+	.line,
+	.label,
+	.skill-label {
+		position: relative;
+	}
+</style>
