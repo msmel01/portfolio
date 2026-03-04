@@ -16,12 +16,17 @@
     transform: rotateZ(-2deg);
     transform-origin: top center;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-.sticky:hover {
-    transform: perspective(600px) rotateZ(-2deg) rotateX(-5deg);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+@media (hover: hover) and (pointer: fine) {
+    .sticky {
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .sticky:hover {
+        transform: perspective(600px) rotateZ(-2deg) rotateX(-5deg);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
 }
 
 .sticky::before {
@@ -49,16 +54,21 @@
         0px 38px 12px -4px rgba(0, 0, 0, 0.13),
         0px 55px 14px -2px rgba(0, 0, 0, 0.12),
         0px 70px 16px 0px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.18s ease;
 }
 
-.sticky:hover::after {
-    box-shadow:
-        0px 4px 3px -2px rgba(0, 0, 0, 0.04),
-        0px 10px 5px -4px rgba(0, 0, 0, 0.06),
-        0px 18px 7px -4px rgba(0, 0, 0, 0.07),
-        0px 25px 8px -2px rgba(0, 0, 0, 0.06),
-        0px 32px 9px 0px rgba(0, 0, 0, 0.05);
+@media (hover: hover) and (pointer: fine) {
+    .sticky::after {
+        transition: box-shadow 0.18s ease;
+    }
+
+    .sticky:hover::after {
+        box-shadow:
+            0px 4px 3px -2px rgba(0, 0, 0, 0.04),
+            0px 10px 5px -4px rgba(0, 0, 0, 0.06),
+            0px 18px 7px -4px rgba(0, 0, 0, 0.07),
+            0px 25px 8px -2px rgba(0, 0, 0, 0.06),
+            0px 32px 9px 0px rgba(0, 0, 0, 0.05);
+    }
 }
 
 .lines {
@@ -88,4 +98,10 @@
 
 .blank {
     visibility: hidden;
+}
+
+.now-link {
+    text-decoration: underline;
+    text-decoration-color: #5703EF;
+    text-decoration-thickness: 1.5px;
 }

@@ -5,7 +5,7 @@ import rough from 'roughjs';
 // ---------------------------------------------------------------------------
 
 interface AnnotationConfig {
-    type: 'highlight' | 'crossed-off' | 'circle';
+    type: 'highlight' | 'crossed-off' | 'circle' | 'underline' | 'box';
     padding?: number | number[];
     strokeWidth?: number;
     color?: string;
@@ -37,9 +37,11 @@ const ANNOTATION_DEFS: AnnotationDef[] = [
     { selector: '.personal-line-2', order: 2, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
     { selector: '.personal-line-3', order: 3, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
     { selector: '.personal-line-4', order: 4, config: { type: 'highlight', padding: [5, 5, 5, 5], strokeWidth: 1.5, color: '#F5DF4D', multiline: true } },
-    { selector: '.now-link', order: 5, config: { type: 'circle', padding: [0, 2, 3, 8], color: '#5703EF', iterations: 1 } },
+    // { selector: '.now-link', order: 5, config: { type: 'circle', padding: [0, 2, 3, 8], color: '#5703EF', iterations: 1 } },
     { selector: '.skill-text', order: 6, config: { type: 'highlight', padding: 5, strokeWidth: 1.5, color: '#F5DF4D' }, multiple: true },
-    { selector: '.project-link', order: 7, config: { type: 'circle', padding: [0, 10, 5, 10], color: '#5703EF', iterations: 1 } },
+    { selector: '.project-link', order: 7, config: { type: 'underline', padding: [0, 2, 6, 2], strokeWidth: 1.8, color: '#5703EF', iterations: 1 } },
+    // { selector: '.employer-annotate', order: 8, config: { type: 'circle', padding: [5, 15, 5, 15], color: '#5703EF', iterations: 1 }, multiple: true },
+    { selector: '.employer-annotate', order: 9, config: { type: 'box', padding: [4, 8, 4, 8], strokeWidth: 1.8, color: '#5703EF' }, multiple: true }
 ];
 
 const DRAW_DURATION_MS = 450;
@@ -240,6 +242,30 @@ function buildSVG(el: HTMLElement, config: AnnotationConfig): SVGSVGElement | nu
             { ...baseOpts, roughness: 2, disableMultiStroke: true }
         );
         svgEl.appendChild(node);
+
+    } else if (config.type === 'underline') {
+        const y = svgH - (normalizePadding(config.padding)[2] / 2);
+        const line = rc.line(0, y, svgW, y, {
+            ...baseOpts,
+            roughness: 2.5,
+            disableMultiStroke: true,
+        });
+        svgEl.appendChild(line);
+
+    } else if (config.type === 'box') {
+        const [padTop, padRight, padBottom, padLeft] = normalizePadding(config.padding);
+        const margin = 2; // inset slightly so the stroke isn't clipped by the SVG edge
+        const rect = rc.rectangle(
+            margin, margin,
+            svgW - margin * 2, svgH - margin * 2,
+            {
+                ...baseOpts,
+                roughness: 2.2,
+                disableMultiStroke: true,
+                fill: 'none',
+            }
+        );
+        svgEl.appendChild(rect);
     }
 
     return svgEl;
@@ -346,7 +372,10 @@ export function setupAnnotations() {
         let node: HTMLElement | null = item.el.parentElement;
         while (node && node !== document.body) {
             const t = window.getComputedStyle(node).transition;
-            if (t && t !== 'none' && !t.startsWith('all 0s')) {
+            // Only track ancestors whose transition actually includes 'transform' —
+            // elements with only border-color / box-shadow transitions don't move,
+            // so the rAF loop is not needed (and stopFn would never fire for them).
+            if (t && t !== 'none' && !t.startsWith('all 0s') && t.includes('transform')) {
                 ancestorSet.add(node);
                 break;
             }
@@ -376,9 +405,13 @@ export function setupAnnotations() {
         const startFn: EventListener = () => {
             if (rafId === null) loop();
         };
-        const stopFn: EventListener = () => {
+        const stopFn: EventListener = (e: Event) => {
+            // Ignore events from child elements and non-transform properties —
+            // box-shadow and border-color also fire transitionend on the same
+            // element and would kill the loop before the transform finishes.
+            if (e.target !== ancestor) return;
+            if ((e as TransitionEvent).propertyName !== 'transform') return;
             if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
-            // Final snap to the settled position
             repositionChildren();
         };
 
@@ -390,6 +423,10 @@ export function setupAnnotations() {
             { el: ancestor, type: 'mouseleave', fn: startFn },
             { el: ancestor, type: 'transitionend', fn: stopFn },
         );
+
+        // If mouse is already over the ancestor when listeners are registered,
+        // mouseenter won't fire — start the loop immediately.
+        if (ancestor.matches(':hover')) startFn(new Event('mouseenter'));
     });
 
     // ---- viewport-triggered animation ----
