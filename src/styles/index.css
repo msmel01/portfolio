@@ -1,78 +1,85 @@
 .heading-main {
-    font-size: 3rem;
-    /* font-family: 'Geist ExtraBold', monospace; */
-    font-family: 'Deja Vu Serif Condensed';
+  font-size: 3rem;
+  /* font-family: 'Geist ExtraBold', monospace; */
+  font-family: 'Deja Vu Serif Condensed';
 }
 
 .heading-section {
-    font-size: 2rem;
-    /* font-family: 'Geist ExtraBold'; */
-    font-family: 'Deja Vu Serif Condensed';
-    /* font-family: 'Inconsolata'; */
-    /* font-weight: 1000; */
+  font-size: 2rem;
+  /* font-family: 'Geist ExtraBold'; */
+  font-family: 'Deja Vu Serif Condensed';
+  /* font-family: 'Inconsolata'; */
+  /* font-weight: 1000; */
 }
 
 section {
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .label {
-    font-size: 1.4rem;
-    font-weight: 800;
-    /* font-family: 'Geist Mono', monospace; */
-    font-family: 'Inconsolata';
-    /* font-family: 'Roboto Serif'; */
+  font-size: 1.4rem;
+  font-weight: 800;
+  /* font-family: 'Geist Mono', monospace; */
+  font-family: 'Inconsolata';
+  /* font-family: 'Roboto Serif'; */
 }
 
 .skill-label {
-    display: block;
+  display: block;
 }
 
 .value {
-    font-size: 1.3rem;
-    /* font-family: 'Geist Mono', monospace; */
-    font-family: 'Inconsolata';
-    /* font-family: 'Roboto Serif'; */
+  font-size: 1.3rem;
+  /* font-family: 'Geist Mono', monospace; */
+  font-family: 'Inconsolata';
+  /* font-family: 'Roboto Serif'; */
+  /* fix: link overflow out of container */
+  overflow-wrap: break-word;
+}
+
+a.value {
+  /* fix: link overflow out of container */
+  word-break: break-all;
 }
 
 .checkbox-label {
-    font-size: 1.3rem;
-    /* font-family: 'Roboto Serif'; */
-    /* font-family: 'Geist Mono', monospace; */
-    font-family: 'Inconsolata';
-    margin-right: 0.5em;
+  font-size: 1.3rem;
+  /* font-family: 'Roboto Serif'; */
+  /* font-family: 'Geist Mono', monospace; */
+  font-family: 'Inconsolata';
+  margin-right: 0.5em;
 }
 
 .checkbox-square {
-    width: 24px;
-    height: 24px;
-    border: 1.5px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
 }
 
 .checkbox-x {
-    font-size: 2rem;
-    font-weight: bold;
-    /* font-family: 'Roboto Serif'; */
-    font-family: 'Inconsolata';
+  font-size: 2rem;
+  font-weight: bold;
+  /* font-family: 'Roboto Serif'; */
+  font-family: 'Inconsolata';
 }
 
 .flex-row {
-    display: flex;
-    align-items: center;
-    gap: 1em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
 }
 
 .flex-row-inner {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .social-media-icons {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .personal-sticky-row {
@@ -80,7 +87,8 @@ section {
   flex-wrap: wrap;
   gap: 2rem;
   align-items: flex-start;
-  margin-bottom: -4em; /* was 2rem, compensates for the 4.5rem pull-up */
+  margin-bottom: -4em;
+  /* was 2rem, compensates for the 4.5rem pull-up */
 }
 
 .personal-statement-col {
@@ -96,7 +104,8 @@ section {
 }
 
 .sticky-note-overlap {
-  margin-top: -4.5rem; /* instead of top: -4.5rem */
+  margin-top: -4.5rem;
+  /* instead of top: -4.5rem */
 }
 
 .personal-sticky-row {
@@ -117,7 +126,9 @@ section {
   .sticky-note-overlap {
     margin-top: 0;
   }
-  .sticky-note-col, .personal-statement-col {
+
+  .sticky-note-col,
+  .personal-statement-col {
     flex: 1 1 100%;
     width: 100%;
   }

@@ -413,6 +413,8 @@ export function setupAnnotations() {
 
             pending.delete(i);
             animated.add(i);
+            // new
+            if (activeObserver) activeObserver.unobserve(items[i].el);
 
             const item = items[i];
             const delay = staggerSlot * STAGGER_MS;
@@ -448,6 +450,12 @@ export function setupAnnotations() {
     // ---- resize: hide immediately, rebuild after debounce ----
     currentWidth = window.innerWidth;
     resizeHandler = () => {
+        // new
+        // Only rebuild when the width changes — on mobile the viewport height changes
+        // constantly as the browser chrome (address bar) shows/hides while scrolling,
+        // which would otherwise retrigger setupAnnotations() and replay all animations.
+        if (window.innerWidth === currentWidth) return;
+        currentWidth = window.innerWidth;
         // Hide all SVGs instantly so they don't visually drift during reflow
         document.querySelectorAll<SVGSVGElement>('svg.rgh-annotation').forEach(s => {
             s.style.opacity = '0';
