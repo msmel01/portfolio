@@ -1,0 +1,38 @@
+---
+const { frontmatter } = Astro.props;
+---
+
+<div class="prose">
+    <slot />
+</div>
+
+<style>
+    .prose :global(h1) {
+        font-size: 3rem;
+        font-family: "Deja Vu Serif Condensed";
+    }
+    .prose :global(h2) {
+        font-size: 2rem;
+        font-family: "Deja Vu Serif Condensed";
+    }
+    .prose :global(p) {
+        /* line-height: 1.7; */
+        font-size: 1.4rem;
+        font-family: "Inconsolata";
+        margin-bottom: 1em;
+    }
+    .prose :global(ul) {
+        /* line-height: 1.7; */
+        list-style: disc;
+        list-style-position: inside;
+        font-size: 1.4rem;
+        font-family: "Inconsolata";
+        margin-bottom: 1em;
+    }
+    .prose :global(a) {
+        /* line-height: 1.7; */
+        text-decoration: underline;
+        text-decoration-color: #5703ef;
+        text-decoration-thickness: 1.5px;
+    }
+</style>
