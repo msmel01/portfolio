@@ -1,18 +1,20 @@
 ---
-const currentPath = Astro.url.pathname;
+const currentPath = Astro.url.pathname; // path may have trailing slash in production
+const normalize = (p: string) => p.replace(/\/$/, "") || "/";
+const path = normalize(currentPath);
 
 import "../styles/navbar.css";
 ---
 
 <nav class="navbar">
     <ul id="tabs">
-        <li class={currentPath === "/" ? "current" : ""}>
+        <li class={path === "/" ? "current" : ""}>
             <a href="/">About</a>
         </li>
-        <li class={currentPath === "/now" ? "current" : ""}>
+        <li class={path === "/now" ? "current" : ""}>
             <a href="/now">Now</a>
         </li>
-        <li class={currentPath === "/projects" ? "current" : ""}>
+        <li class={path === "/projects" ? "current" : ""}>
             <a href="/projects">Projects</a>
         </li>
 
